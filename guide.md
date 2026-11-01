@@ -191,10 +191,11 @@ create policy "anyone can delete" on public.diaries
 
 ## 5단계 — Copilot Plan 모드 → Agent 모드로 일기장 구현
 
-1. VS Code의 Copilot Chat을 열고 모드를 **Plan 모드**로 변경합니다.
-2. 아래 PRD 프롬프트를 그대로 복사하여 전송합니다:
+### 5-1. Copilot Plan 모드로 요구사항(PRD) 전송
+1. VS Code의 Copilot Chat 창을 열고, 입력창 위의 모드를 **Plan 모드**로 변경합니다.
+2. 아래 프롬프트 상자 우측 상단의 **복사(📋) 버튼**을 눌러 Copilot Chat에 그대로 전송합니다:
 
-```
+```markdown
 [Copilot Plan 모드 프롬프트 — 감정 일기 PRD]
 아래 PRD를 바탕으로 감정 일기 웹앱을 구현해줘.
 이 프로젝트는 Vite + React로 세팅되어 있고 @supabase/supabase-js도 설치되어 있어.
@@ -231,20 +232,30 @@ create policy "anyone can delete" on public.diaries
 - Vite 기본 예시 템플릿 코드와 이미지(hero, reactLogo 등)는 깔끔히 정리할 것
 ```
 
-3. Copilot이 제시한 구현 계획을 확인합니다:
-   - `src/lib/supabase.js` 생성 여부
-   - `src/api/diaries.js` 생성 여부
-   - 로딩/저장/오류/빈 상태 처리 여부
-4. 계획이 마음에 들면 **Start Implementation**(또는 "계획 승인, 구현 시작해줘")을 입력하여 **Agent 모드**로 구현을 진행합니다.
-5. 구현이 완료되면 터미널에서 실행하여 테스트합니다:
+---
+
+### 5-2. 계획 검토 및 구현 승인 (사람이 할 일)
+1. Copilot이 답변으로 제시한 **구현 계획(Plan)**을 읽고 아래 3가지가 포함되었는지 확인합니다:
+   - [ ] `src/lib/supabase.js` 클라이언트 생성 계획이 있는가?
+   - [ ] `src/api/diaries.js`에 CRUD 함수를 분리하는 계획이 있는가?
+   - [ ] 로딩·저장 중·오류·빈 상태 처리가 포함되었는가?
+2. 계획이 만족스러우면 **Start Implementation** 버튼을 누릅니다.
+   - 💡 **버튼이 안 보이고 "계획 검토 필요"만 깜빡일 때**: 채팅창에 `계획 승인, 구현 시작해줘`라고 입력하면 Agent가 즉시 구현을 시작합니다.
+3. Agent가 구현을 마칠 때까지 잠시 기다립니다 (터미널 명령어 실행 허용 창이 뜨면 허용해 줍니다).
+
+---
+
+### 5-3. 로컬 실행 검증 및 커밋
+1. 구현이 완료되면 터미널에서 실행합니다:
    ```bash
    npm run dev
    ```
-   - 브라우저에서 감정을 고르고 일기를 작성해 봅니다.
-   - 브라우저를 **새로고침**해도 작성한 일기가 그대로 남아 있나요?
-   - Supabase 콘솔의 **Table Editor**에서도 방금 쓴 일기 행이 들어갔는지 확인합니다.
-   - 일기를 삭제해보고, 목록과 DB에서 모두 제거되는지 확인합니다.
-6. 정상 작동이 확인되면 `diary` 브랜치에 커밋합니다:
+2. 브라우저에서 아래 항목들을 하나씩 테스트합니다:
+   - 일기를 작성하고 저장을 누르면 목록에 바로 뜨는가?
+   - **새로고침(F5)**을 해도 일기가 사라지지 않고 그대로 유지되는가?
+   - Supabase 대시보드의 **Table Editor**에서도 방금 쓴 일기 데이터가 들어갔는가?
+   - 일기를 삭제했을 때 화면과 Supabase DB 양쪽에서 모두 사라지는가?
+3. 모든 기능이 정상 동작하면 `diary` 브랜치에 커밋합니다:
    ```bash
    git add .
    git commit -m "feat: Supabase 연동 감정 일기 구현"

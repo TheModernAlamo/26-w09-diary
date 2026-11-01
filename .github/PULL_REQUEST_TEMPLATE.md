@@ -19,7 +19,7 @@
 - [ ] `.env.local`이 GitHub에 올라가지 않았다 (저장소 파일 목록에 없다)
 - [ ] 코드에 Supabase 키 값이 직접 적혀 있지 않다 (`import.meta.env`로만 읽는다)
 - [ ] `dev` 브랜치의 `README.md`를 작성했다 (소개 / 만든 방법 / 데이터 저장 / 보안 점검 / 배포 링크 / 커스터마이징)
-- [ ] Git 태그와 Release Note를 작성했다
+- [ ] Git 태그(v1.0)를 생성하고 push했다
 
 ## 한 줄 소감
 

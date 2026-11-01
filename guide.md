@@ -390,14 +390,40 @@ Netlify는 GitHub 저장소에 코드가 올라오면, Netlify 클라우드 서�
    git commit -m "docs: 배포 URL 추가"
    git push origin dev
    ```
-2. 버전 태그 생성 및 푸시:
+2. 작업 완료를 기록하기 위해 `dev` 브랜치에 버전 태그를 붙이고 푸시합니다:
    ```bash
    git tag v1.0
    git push origin v1.0
    ```
-3. GitHub 저장소의 **Releases → Draft a new release**에서 `v1.0` 태그를 선택하고 Release Note를 작성합니다.
-4. **내 저장소 `dev` → 원본 저장소(`kopo-kangseo-cybersec/26-w09-diary`) `main`** 방향으로 Pull Request를 생성하고 템플릿을 채워 제출합니다.
-5. 실습이 끝난 후 [github.com/codespaces](https://github.com/codespaces)에서 오늘 사용한 Codespace를 반드시 **Stop**합니다.
+3. **내 저장소 `dev` → 원본 저장소(`kopo-kangseo-cybersec/26-w09-diary`) `main`** 방향으로 Pull Request를 생성하고 템플릿을 채워 제출합니다.
+   - 💡 `main`은 초기 템플릿 보존용이므로, 별도로 Release Note를 쓸 필요 없이 태그와 PR 제출로 완성이 인정됩니다.
+4. 실습이 끝난 후 [github.com/codespaces](https://github.com/codespaces)에서 오늘 사용한 Codespace를 반드시 **Stop**합니다.
+
+---
+
+## 💡 [보너스] 만약 Codespace를 삭제하고 내 컴퓨터(로컬)에서 이어서 작업하려면?
+
+Codespaces를 삭제했더라도 당황하지 마세요! 소스 코드는 GitHub에, 일기 데이터는 Supabase에 영구 보존되어 있습니다. 내 로컬 컴퓨터에서 1분 만에 환경을 복원할 수 있습니다:
+
+1. **내 Fork 저장소 Clone** (작업 브랜치인 `dev`로 가져옵니다):
+   ```bash
+   git clone -b dev https://github.com/내아이디/26-w09-diary.git
+   cd 26-w09-diary
+   ```
+2. **라이브러리 재설치 (`node_modules` 복원)**:
+   ```bash
+   npm install
+   ```
+3. **환경변수 파일 재생성 (`.env.local` 복원)**:
+   - Git에는 키가 없으므로 `.env.example`을 복사해 `.env.local`을 다시 만듭니다:
+     ```bash
+     cp .env.example .env.local
+     ```
+   - Supabase 대시보드에서 내 Project URL과 Publishable Key를 다시 복사해 넣습니다.
+4. **실행**:
+   ```bash
+   npm run dev
+   ```
 
 ---
 

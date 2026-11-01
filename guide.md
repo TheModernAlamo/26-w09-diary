@@ -120,8 +120,10 @@ main              (원본 보관 — 절대 merge하지 않습니다)
 1. [Supabase 대시보드](https://supabase.com/dashboard) → **New project** 클릭
 2. Name: `w09-diary` (자유롭게 입력), Region: **Northeast Asia (Seoul)** 선택
 3. Database Password: 자동 생성 버튼을 누르고 **비밀번호를 메모장에 따로 복사**해둡니다.
-4. **GitHub 저장소 연결 옵션은 연결하지 않고 건너뜁니다.**
-5. **Create new project** 클릭 → 프로젝트가 준비될 때까지 1~2분 기다립니다.
+4. **💡 Security 옵션 안내**:
+   - **Enable automatic RLS**: 체크해 두는 것을 권장합니다. (체크하지 않아도 3-2단계 SQL에서 직접 RLS를 켜기 때문에 실습에는 지장이 없지만, 테이블 생성 시 자동으로 보안을 켜주는 안전한 습관입니다.)
+5. **GitHub 저장소 연결 옵션은 연결하지 않고 건너뜁니다.**
+6. **Create new project** 클릭 → 프로젝트가 준비될 때까지 1~2분 기다립니다.
 
 ### 3-2. SQL로 테이블 및 보안 정책 생성
 왼쪽 메뉴 **SQL Editor** 클릭 → **New query**에 아래 SQL 전체를 복사해 붙여넣고 **Run**(실행)을 누릅니다:
@@ -179,7 +181,11 @@ create policy "anyone can delete" on public.diaries
    ```bash
    git status
    ```
-   > 💡 **중요**: `git status` 결과에 `.env.local`이 **보이지 않아야** 정상입니다 (`.gitignore`에 의해 자동 제외). 만약 보인다면 커밋하지 말고 바로 알리세요.
+   > 💡 **왜 커밋하지 않고 그냥 넘어가나요?**:
+   > - `git status`를 쳐보면 `nothing to commit, working tree clean`이라며 **`.env.local`이 목록에 전혀 보이지 않습니다.**
+   > - 이것이 정상입니다! 접속 키가 들어있는 파일이 GitHub 저장소에 노출되는 것을 막기 위해 `.gitignore`에 등록되어 있기 때문입니다.
+   > - **이 단계에서는 커밋할 파일이 없으므로, 커밋 없이 바로 5단계로 넘어갑니다.**
+   > - *(만약 `git status`에 `.env.local`이 빨간색으로 보인다면 커밋하지 말고 즉시 알려주세요!)*
 
 ---
 

@@ -28,8 +28,8 @@ diaries 테이블의 구조(컬럼)와, 8주차 To-Do(localStorage)와 무엇이
 
 ## 실행 및 배포 링크
 
-<!-- 배포 링크 (Netlify 또는 GitHub Pages 주소) -->
-- 배포 URL: 
+- Netlify 배포 URL: 
+- GitHub Pages 배포 URL: 
 
 ## 커스터마이징한 부분
 

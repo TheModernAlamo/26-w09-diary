@@ -4,7 +4,8 @@
 
 ## 배포 링크
 
-- Netlify (또는 GitHub Pages): 
+- Netlify 배포 URL: 
+- GitHub Pages 배포 URL: 
 
 ## Release 태그
 
@@ -13,8 +14,8 @@
 ## 체크리스트
 
 - [ ] `dev` → `main` 방향으로 PR을 보냈다 (main은 원본 보관용이므로 실제 merge는 하지 않습니다 — 리뷰용 제출입니다)
-- [ ] 배포 사이트(Netlify 또는 GitHub Pages)에서 일기 작성·조회·삭제가 정상 동작한다
-- [ ] 다른 기기(스마트폰 등)에서 열어도 같은 기록이 실시간으로 보이는 것을 확인했다
+- [ ] 두 배포 사이트(Netlify, GitHub Pages)에서 일기 작성·조회·삭제가 정상 동작한다
+- [ ] Netlify 사이트, GitHub Pages 사이트, 스마트폰 간에 데이터가 실시간으로 상호 동기화되는 것을 확인했다
 - [ ] `.env.local`이 GitHub에 올라가지 않았다 (저장소 파일 목록에 없다)
 - [ ] 코드에 Supabase 키 값이 직접 적혀 있지 않다 (`import.meta.env`로만 읽는다)
 - [ ] `dev` 브랜치의 `README.md`를 작성했다 (소개 / 만든 방법 / 데이터 저장 / 보안 점검 / 배포 링크 / 커스터마이징)

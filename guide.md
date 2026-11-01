@@ -266,9 +266,15 @@ create policy "anyone can delete" on public.diaries
 
 ## 6단계 — 보안 점검 (사이버보안과 필수 체크포인트)
 
-1. 앱이 실행 중인 브라우저에서 **개발자 도구(F12) → Network 탭**을 엽니다.
-2. 페이지를 새로고침하고 `supabase.co`로 전송되는 요청을 클릭합니다.
-3. **Headers**에서 `apikey` 헤더를 확인해 보세요. 방금 `.env.local`에 넣었던 Publishable Key가 그대로 보입니다!
+1. 앱이 실행 중인 브라우저에서 **개발자 도구(F12) → Network(네트워크) 탭**을 엽니다.
+2. 페이지를 새로고침(F5)합니다.
+3. **💡 Supabase 요청 쉽게 찾는 법**:
+   - 상단 필터 바에서 `모두(All)` 대신 **`Fetch/XHR`** 버튼을 클릭하거나, 좌측 상단 검색창에 **`diaries`**를 입력합니다.
+   - 개발 서버의 수많은 JS/CSS 번들 파일이 걸러지고, Supabase 서버와 통신한 API 요청(`diaries?...`)만 깔끔하게 남습니다.
+4. 목록에 나타난 **`diaries?...`** 요청을 클릭하고, 우측 창의 **Headers(헤더)** 탭을 선택합니다.
+5. 아래로 스크롤하여 **Request Headers(요청 헤더)**를 확인해 보세요. 방금 `.env.local`에 넣었던 Publishable Key가 그대로 보입니다!
+   - `apikey: sb_publishable_xxxx...`
+   - `authorization: Bearer sb_publishable_xxxx...`
 
 > 🧠 **사이버보안과 생각거리**:
 > 1. `.env.local`로 숨겨두었는데 왜 브라우저 요청에서 키가 보일까요?
@@ -299,19 +305,19 @@ create policy "anyone can delete" on public.diaries
 
 ---
 
-## 8단계 — 배포 (React 배포의 원리)
+## 8단계 — 배포 (두 개의 다른 플랫폼에 모두 배포해보기!)
 
 ### 💡 왜 4~8주차와 배포 방식이 다른가요?
 - **4~8주차 정적 사이트**: `index.html`, `script.js` 파일 그대로 브라우저가 실행할 수 있었습니다.
 - **9주차 React 앱**: JSX 문법과 컴포넌트는 브라우저가 직접 이해하지 못합니다. Vite 번들러가 이를 하나의 최적화된 HTML/CSS/JS 파일 묶음(`dist` 폴더)으로 **변환(빌드)**해야만 서비스할 수 있습니다.
 
-우리는 **Netlify를 기본(1순위)**으로 배포하며, 만약의 계정/빌드 이슈에 대비해 **GitHub Pages 비상 대안(2순위)**도 함께 제공합니다.
+오늘은 현대 웹에서 가장 많이 쓰는 **2가지 배포 방식(Netlify와 GitHub Pages)**을 모두 실습합니다. 두 플랫폼에 모두 배포하면 9단계에서 놀라운 장면을 목격하게 됩니다!
 
 ---
 
-### [방법 8-A] Netlify 배포 (기본 추천 경로)
+### [배포 1] Netlify 배포 (클라우드 자동 빌드 CI/CD)
 
-Netlify는 GitHub 저장소에 코드가 올라오면, Netlify 클라우드 서버에서 자동으로 `npm run build`를 실행하여 배포해 줍니다 (CI/CD 자동 빌드).
+Netlify는 GitHub 저장소에 코드가 올라오면, Netlify 클라우드 서버에서 자동으로 `npm run build`를 실행하여 배포해 줍니다.
 
 1. [Netlify 대시보드](https://app.netlify.com) 접속 → **Add new site → Import an existing project** 클릭
 2. **GitHub** 선택 → 저장소 목록에서 내 Fork 저장소(`26-w09-diary`) 선택
@@ -325,16 +331,16 @@ Netlify는 GitHub 저장소에 코드가 올라오면, Netlify 클라우드 서�
      - `VITE_SUPABASE_URL` : `https://xxxx.supabase.co`
      - `VITE_SUPABASE_PUBLISHABLE_KEY` : `sb_publishable_xxxx`
    - ⚠️ **주의**: **"Contains secret values" 옵션은 절대 체크하지 마세요!** (체크하면 브라우저용 공개 키를 비밀로 오인하여 Netlify가 빌드를 실패시킵니다.)
-5. **Deploy 26-w09-diary** 버튼 클릭 → 1~2분 뒤 초록색 완료 표시와 함께 배포 URL이 생성됩니다.
+5. **Deploy 26-w09-diary** 버튼 클릭 → 1~2분 뒤 초록색 완료 표시와 함께 배포 URL(`https://랜덤이름.netlify.app`)이 생성됩니다.
 6. 배포 URL로 접속하여 일기장이 잘 뜨는지 확인합니다.
 
 ---
 
-### [방법 8-B] GitHub Pages 배포 (비상 대안 / Netlify 오류 시 즉시 전환)
+### [배포 2] GitHub Pages 배포 (로컬 빌드 후 결과물 배포)
 
-Netlify 로그인 차단이나 빌드 오류가 발생했을 경우, 당황하지 말고 아래 2줄로 GitHub Pages 배포를 진행하세요!
+이번에는 내 개발환경(Codespaces)에서 직접 빌드하고, 그 결과물(`dist`)만 `gh-pages` 브랜치로 올려 배포해 봅니다.
 
-1. Codespaces 터미널에서 직접 빌드를 수행합니다:
+1. Codespaces 터미널(`dev` 브랜치 상태)에서 직접 빌드를 수행합니다:
    ```bash
    npm run build
    ```
@@ -343,23 +349,36 @@ Netlify 로그인 차단이나 빌드 오류가 발생했을 경우, 당황하�
    ```bash
    npx gh-pages -d dist
    ```
+   > 💡 **브랜치를 미리 만들지 않아도 되나요?**  
+   > 네! 3~8주차처럼 `git checkout -b gh-pages`를 손으로 미리 만들 필요가 전혀 없습니다. `npx gh-pages` 도구가 원격 저장소에 `gh-pages` 브랜치를 자동으로 새로 생성하고 `dist` 폴더 내용물만 깔끔하게 올려줍니다.
    - `Ok to proceed? (y)`가 나오면 `y` 입력
-   - `Published` 문구가 나오면 배포 완료입니다.
-3. GitHub 내 저장소 → **Settings → Pages** 이동:
+   - 몇 초 뒤 `Published` 문구가 나오면 배포 완료입니다.
+3. GitHub 내 저장소 웹페이지 → **Settings → Pages** 이동:
    - Source: **Deploy from a branch**
-   - Branch: **`gh-pages`**, Folder: **`/(root)`** 선택 후 Save
+   - Branch: 방금 도구가 자동으로 생성해 준 **`gh-pages`**, Folder: **`/(root)`** 선택 후 Save
    - 1~2분 뒤 `https://내아이디.github.io/26-w09-diary/` 주소로 배포 완료!
 
 ---
 
-## 9단계 — 오늘의 핵심 장면: 스마트폰으로 실시간 동기화 확인
+## 9단계 — 오늘의 핵심 하이라이트: Netlify ↔ GitHub Pages ↔ 스마트폰 삼각 동기화!
 
-1. 완성된 배포 URL을 **스마트폰 브라우저**로 접속합니다.
-2. PC에서 작성했던 일기 목록이 스마트폰 화면에도 그대로 뜨나요?
-3. 이번에는 **스마트폰에서 새로운 감정 일기를 작성**한 뒤, **PC 브라우저를 새로고침**해 보세요.
-4. 방금 스마트폰에서 작성한 일기가 PC 화면에 그대로 나타납니다!
+서로 완전히 다른 3개의 환경이 하나의 중앙 데이터베이스(Supabase)를 통해 실시간으로 이어지는 마법을 확인합니다.
 
-> 🎉 8주차 To-Do(localStorage)에서는 불가능했던 **"클라우드 데이터베이스를 통한 다중 기기 실시간 동기화"**를 성공적으로 달성했습니다.
+1. 컴퓨터 브라우저에 **Netlify 배포 사이트**와 **GitHub Pages 배포 사이트**를 나란히 두 창으로 띄웁니다.
+2. **스마트폰 브라우저**로도 둘 중 하나의 주소에 접속합니다.
+3. **[테스트 1: Netlify에서 쓰고 GitHub Pages에서 보기]**:
+   - **Netlify 사이트**에서 감정 일기를 하나 작성해 보세요.
+   - **GitHub Pages 사이트**를 새로고침해 보세요. Netlify에서 쓴 글이 그대로 나타납니다!
+4. **[테스트 2: 스마트폰에서 쓰고 PC에서 보기]**:
+   - 이번에는 **스마트폰**에서 새 일기를 작성해 보세요.
+   - 컴퓨터의 두 사이트를 새로고침해 보세요. 스마트폰에서 쓴 글이 두 사이트 모두에 동시에 나타납니다!
+5. **[테스트 3: 한 곳에서 삭제하고 다른 곳 확인하기]**:
+   - GitHub Pages 사이트에서 일기 하나를 삭제해 보세요.
+   - Netlify 사이트를 새로고침하면 삭제가 반영되어 사라집니다!
+
+> 🎉 **오늘의 가장 중요한 배움**:
+> - 프론트엔드 호스팅이 Netlify에 있든, GitHub Pages에 있든, 내 스마트폰에 있든 상관없습니다.
+> - **"모든 화면은 그저 껍데기(UI)일 뿐이며, 진짜 서비스의 본체는 중앙의 클라우드 데이터베이스(Supabase)에 살아 숨쉰다"**는 현대 클라우드 웹 아키텍처의 본질을 직접 눈으로 확인했습니다!
 
 ---
 

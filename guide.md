@@ -69,11 +69,15 @@ main              (원본 보관 — 절대 merge하지 않습니다)
    - Fork 화면의 **Copy the `main` branch only** 체크는 그대로 둡니다.
 2. 내 Fork 저장소에서 **Code → Codespaces → Create codespace on main**을 클릭합니다.
 3. 브라우저에 VS Code 화면이 열릴 때까지 1~2분 기다립니다.
-4. VS Code 하단에 GitHub Copilot이 정상 로그인되어 있는지 확인합니다.
+4. **💡 로컬 VS Code 프로그램으로 연결해서 열기 (강력 추천!)**:
+   - 브라우저 상단 좌측 햄버거 메뉴(≡) → **Open in VS Code Desktop**을 클릭하거나, 화면 우하단 알림/톱니바퀴에서 **Open in VS Code**를 누릅니다.
+   - 내 컴퓨터의 VS Code 창으로 Codespace가 연결됩니다. (필요시 'GitHub Codespaces' 확장 프로그램 설치 메시지가 뜨면 설치를 누릅니다.)
+   - 브라우저 탭 안에서 작업하는 것보다 내 컴퓨터의 단축키와 화면 배치가 훨씬 자연스럽고 편리합니다. (물론 브라우저 창에서 그대로 작업해도 무방합니다.)
+5. VS Code 하단에 GitHub Copilot이 정상 로그인되어 있는지 확인합니다.
 
 ---
 
-## 2단계 — `dev` 브랜치 만들고 실행 확인
+## 2단계 — `dev` 브랜치 생성, 의존성 설치 및 환경 커밋
 
 `main`은 원본 보관용이므로, 실행 확인부터 `dev`에서 진행합니다.
 
@@ -82,7 +86,7 @@ main              (원본 보관 — 절대 merge하지 않습니다)
    git checkout -b dev
    git push -u origin dev
    ```
-2. 패키지 설치 및 실행:
+2. 패키지 설치 및 실행 확인:
    ```bash
    npm install
    npm run dev
@@ -91,12 +95,22 @@ main              (원본 보관 — 절대 merge하지 않습니다)
 3. 오른쪽 아래 알림창에서 **Open in Browser**를 눌러 Vite + React 기본 화면이 뜨는지 확인합니다.
    - 알림을 놓쳤다면 하단 **PORTS** 탭 → `5173` 포트 옆 지구본 아이콘을 클릭합니다.
    - 확인 후 터미널에서 `Ctrl + C`를 눌러 서버를 잠시 종료합니다.
-4. 구현용 `diary` 브랜치 생성:
+4. **초기 환경 커밋 (`package-lock.json`)**:
+   - `git status`를 쳐보면 `package-lock.json` 파일이 새로 생성되어 있습니다.
+   - 💡 **`package-lock.json`이란?**: 오늘 설치된 패키지들의 정확한 버전과 의존 관계를 완벽히 잠가두어, 나중에 Netlify 배포 서버에서도 정확히 똑같은 환경으로 빌드되도록 보증하는 파일입니다.
+   - 💡 **`node_modules`는 왜 Git에 안 보이나요?**: 실제 수백 MB의 패키지 파일이 들어있는 `node_modules/`는 `.gitignore`에 등록되어 있어 Git이 추적하지 않는 로컬 실제 폴더입니다. Git 브랜치를 바꿔도 디스크에 계속 남아 있으므로, 어떤 브랜치에서든 그대로 쓸 수 있습니다.
+   - 이 초기 환경을 `dev` 브랜치에 먼저 깔끔하게 커밋하고 푸시합니다:
+     ```bash
+     git add package.json package-lock.json
+     git commit -m "chore: 프로젝트 초기 의존성 설치 및 package-lock 생성"
+     git push origin dev
+     ```
+5. 기능 개발을 위한 작업 브랜치 `diary` 생성:
    ```bash
    git checkout -b diary
    ```
 
-이후 구현 작업은 모두 `diary` 브랜치에서 진행합니다.
+이후 구현 작업은 모두 `diary` 브랜치에서 진행합니다. (이제 `diary` 브랜치는 오직 감정 일기 기능 구현 커밋에만 집중할 수 있습니다!)
 
 ---
 

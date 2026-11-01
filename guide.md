@@ -201,7 +201,7 @@ create policy "anyone can delete" on public.diaries
 이 프로젝트는 Vite + React로 세팅되어 있고 @supabase/supabase-js도 설치되어 있어.
 
 ## 1. 목표
-하루의 감정과 생각을 기록하고, PC와 스마트폰 등 어느 기기에서 열어도 동일한 기록을 실시간으로 확인하는 감정 일기장
+하루의 감정과 생각을 기록하고, PC와 스마트폰 등 어느 기기에서 열어도 동일한 기록을 확인할 수 있는 감정 일기장 (새로고침/재조회 기반 기본 CRUD 연동, Realtime 웹소켓 기능은 제외)
 
 ## 2. 데이터 정의 (Supabase `diaries` 테이블 사용 — 이미 DB에 생성되어 있음)
 - id: bigint, 자동 생성
@@ -228,6 +228,7 @@ create policy "anyone can delete" on public.diaries
 - Supabase 클라이언트 초기화는 `src/lib/supabase.js` 한 곳에서만 생성할 것
   (import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY 사용)
 - 데이터베이스 조회(select), 추가(insert), 삭제(delete) 함수는 `src/api/diaries.js`에 모듈로 분리할 것
+- Supabase Realtime(웹소켓 구독)은 사용하지 않고, 일기 작성·삭제 시 목록을 재조회(fetch)하는 기본 CRUD 방식으로 구현할 것
 - 스타일은 Tailwind CSS를 활용해 모바일과 데스크톱 모두 깔끔한 반응형 카드 디자인으로 적용할 것
 - Vite 기본 예시 템플릿 코드와 이미지(hero, reactLogo 등)는 깔끔히 정리할 것
 ```
